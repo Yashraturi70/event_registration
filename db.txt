@@ -1,0 +1,58 @@
+# Database Schema for Event Registration Website
+
+-- USERS TABLE
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('user','organizer','admin') DEFAULT 'user',
+    university VARCHAR(100),
+    department VARCHAR(100)
+);
+
+-- PLACES TABLE
+CREATE TABLE places (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- EVENTS TABLE
+CREATE TABLE events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    poster VARCHAR(255), -- file path to image
+    organizer_id INT,
+    contact VARCHAR(100),
+    eligibility_type ENUM('all','university','department') DEFAULT 'all',
+    eligibility_value VARCHAR(100),
+    place_id INT,
+    date DATE,
+    start_time TIME,
+    end_time TIME,
+    max_seats INT DEFAULT NULL, -- Optional seat limit
+    FOREIGN KEY (organizer_id) REFERENCES users(id),
+    FOREIGN KEY (place_id) REFERENCES places(id)
+);
+
+-- RSVPS TABLE
+CREATE TABLE rsvps (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    event_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (event_id) REFERENCES events(id)
+);
+
+# Notes:
+# - Admins can add places and assign admin/organizer roles.
+# - Organizers can create events.
+# - Users can RSVP to events.
+# - Check for event overlap: same place, date, and time.
+# - Notify if event exists for same university/place. 
+
+CREATE DATABASE event_registration;
+
+ALTER TABLE events
+ADD COLUMN max_seats INT DEFAULT NULL; 

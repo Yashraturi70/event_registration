@@ -1,0 +1,98 @@
+# Event/Seminar Registration Website - Project Explanation
+
+## Website Flow
+
+### 1. Landing Page (`index.php`)
+- The entry point of the website.
+- Shows links to Login and Register.
+- If a user is already logged in, redirects them to their respective dashboard based on their role (admin, organizer, user).
+
+### 2. Registration (`register.php`)
+- Allows new users to register by providing name, email, password, university, and department.
+- On successful registration, users can log in.
+- All passwords are securely hashed.
+
+### 3. Login (`login.php`)
+- Users log in using their email and password.
+- After login, users are redirected based on their role:
+  - **Admin:** Redirected to `admin.php`
+  - **Organizer:** Redirected to `organizer.php`
+  - **User:** Redirected to `events.php`
+
+### 4. Admin Dashboard (`admin.php`)
+- Only accessible to users with the 'admin' role.
+- Admins can:
+  - Add new event places (locations).
+  - Assign roles (admin, organizer, user) to any user.
+  - View all users and all places.
+
+### 5. Organizer Dashboard (`organizer.php`)
+- Only accessible to users with the 'organizer' role.
+- Organizers can:
+  - View all events they have created, along with RSVP counts.
+  - Access the event creation page (`create_event.php`).
+
+### 6. Create Event (`create_event.php`)
+- Only accessible to organizers.
+- Organizers can create new events with details:
+  - Event name, description, poster (image upload), contact info, eligibility (all/university/department), place, date, start/end time.
+- Checks for overlapping events (same place, date, and time) and notifies if overlap or if another event exists for the same university/place.
+
+### 7. User Event Listing (`events.php`)
+- Only accessible to users with the 'user' role.
+- Users can:
+  - Filter available events by university, department, place, and date.
+  - View event details and RSVP to events.
+  - See which events they have already RSVPed to.
+
+### 8. RSVP Handler (`rsvp.php`)
+- Handles RSVP submissions from users.
+- Prevents duplicate RSVPs.
+- Redirects back to the event listing after RSVP.
+
+### 9. Logout (`logout.php`)
+- Ends the user session and redirects to the landing page.
+
+### 10. Database Schema (`db.txt`)
+- Contains the SQL schema for all tables: users, places, events, rsvps.
+- Use this file to set up the MySQL database.
+
+### 11. CSS Files
+- Each main page has its own CSS file for styling (e.g., `admin_css.css`, `login_css.css`, etc.).
+- All CSS files use a modern, clean blue/white theme for consistency.
+
+---
+
+## File Use Cases
+
+- **index.php**: Landing page, handles redirection for logged-in users.
+- **register.php**: User registration form and handler.
+- **login.php**: User login form and handler, redirects based on role.
+- **admin.php**: Admin dashboard for managing places and user roles.
+- **organizer.php**: Organizer dashboard for managing their events.
+- **create_event.php**: Event creation form for organizers, with overlap checks.
+- **events.php**: Event listing and RSVP page for users.
+- **rsvp.php**: Handles RSVP submissions.
+- **logout.php**: Logs out the user and ends the session.
+- **db.txt**: Database schema and notes.
+- **[page]_css.css**: Styling for each respective page.
+
+---
+
+## User Roles
+
+- **Admin**: Full control, can manage places and assign roles.
+- **Organizer**: Can create and manage their own events.
+- **User**: Can view, filter, and RSVP to events.
+
+---
+
+## Additional Notes
+- All passwords are securely hashed using PHP's `password_hash()` and checked with `password_verify()`.
+- Event creation checks for time/place overlap and notifies organizers of conflicts.
+- The system is designed for easy extension and beginner-friendly maintenance.
+- All forms and tables are styled for clarity and usability.
+
+---
+
+For any further customization or questions, refer to this file or ask your developer! 
